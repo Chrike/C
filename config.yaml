@@ -4,7 +4,7 @@ check-interval: 15000
 timeout: 4000
 speed-test-url: https://github.com/AaronFeng753/Waifu2x-Extension-GUI/releases/download/v2.21.12/Waifu2x-Extension-GUI-v2.21.12-Portable.7z
 min-speed: 5
-download-timeout: 15
+download-timeout: 10
 listen-port: ""
 rename-node: false
 node-prefix: ""
