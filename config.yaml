@@ -183,4 +183,4 @@ sub-urls:
   #- "https://raw.githubusercontent.com/SoliSpirit/v2ray-configs/main/all_configs.txt"
   - "https://raw.githubusercontent.com/ripaojiedian/freenode/main/clash"
   - "https://raw.githubusercontent.com/go4sharing/sub/main/sub.yaml"
-  - "https://gist.githubusercontent.com/GeBron/a41c2616cff5ea0c4a96e0567d98dbf6/raw/clash.yaml"
+  #- "https://gist.githubusercontent.com/GeBron/a41c2616cff5ea0c4a96e0567d98dbf6/raw/clash.yaml"
