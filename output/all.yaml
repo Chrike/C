@@ -1,25 +1,25 @@
 proxies:
-    - auth: bbe03039-d9e1-4b52-a5f1-2329c3fee37d
-      down: 50
-      name: "\U0001F1F7\U0001F1FA 俄罗斯-圣彼得堡-HY-001-1A | ⬇️ 1.1MB/s"
-      obfs: salamander
-      obfs-password: NDhhNmY5YTY0MGYzOTgxYQ==
-      password: bbe03039-d9e1-4b52-a5f1-2329c3fee37d
-      port: 31000
+    - alterId: 0
+      cipher: auto
+      name: "\U0001F1F7\U0001F1FA 俄罗斯-圣彼得堡-001-1A | ⬇️ 5.2MB/s"
+      network: ws
+      port: 22025
       server: 195.58.49.84
-      skip-cert-verify: true
-      type: hysteria2
+      tls: false
+      type: vmess
       udp: true
-      up: 50
-    - auth: fb3d77a7-54c9-4381-96e9-6bf88b110c4e
-      down: 50
-      name: "\U0001F1F7\U0001F1FA 俄罗斯-圣彼得堡-HY-001-1B | ⬇️ 1.2MB/s"
-      obfs: salamander
-      obfs-password: NDhhNmY5YTY0MGYzOTgxYQ==
-      password: fb3d77a7-54c9-4381-96e9-6bf88b110c4e
-      port: 31000
+      uuid: bbe03039-d9e1-4b52-a5f1-2329c3fee37d
+      ws-opts:
+        path: /
+    - alterId: 0
+      cipher: auto
+      name: "\U0001F1F7\U0001F1FA 俄罗斯-圣彼得堡-001-1B | ⬇️ 3.0MB/s"
+      network: ws
+      port: 22025
       server: 195.58.49.84
-      skip-cert-verify: true
-      type: hysteria2
+      tls: false
+      type: vmess
       udp: true
-      up: 50
+      uuid: fb3d77a7-54c9-4381-96e9-6bf88b110c4e
+      ws-opts:
+        path: /
