@@ -1,0 +1,27 @@
+name: Run subs-check
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # 每天 UTC 时间午夜运行
+
+jobs:
+  run-subs-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run subs-check
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}/config.yaml:/app/config/config.yaml \
+            -v ${{ github.workspace }}/output:/app/output \
+            ghcr.io/beck-8/subs-check:latest -f /app/config/config.yaml
+
+      - name: Commit output
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add output/*
+          git commit -m "Update subscription output" || echo "No changes to commit"
+          git push
