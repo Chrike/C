@@ -3,7 +3,7 @@ name: Run subs-check
 on:
   schedule:
     - cron: '0 0 * * *'  # 每天 UTC 时间午夜运行
-
+  workflow_dispatch:
 jobs:
   run-subs-check:
     runs-on: ubuntu-latest
