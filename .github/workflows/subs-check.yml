@@ -2,8 +2,7 @@ name: Run subs-check
 
 on:
   schedule:
-    - cron: '0 0 * * *'
-  workflow_dispatch:
+    - cron: '0 0 * * *'  # 每天 UTC 时间午夜运行
 
 jobs:
   run-subs-check:
@@ -17,7 +16,7 @@ jobs:
           docker run --rm \
             -v ${{ github.workspace }}/config.yaml:/app/config/config.yaml \
             -v ${{ github.workspace }}/output:/app/output \
-            ghcr.io/beck-8/subs-check:latest -f /app/config/config.yaml
+            ghcr.io/beck-8/subs-check:latest
 
       - name: Commit output
         run: |
