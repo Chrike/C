@@ -2,8 +2,9 @@ name: Run subs-check
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # 每天 UTC 时间午夜运行
+    - cron: '0 0 * * *'  # 每天 UTC 时间午夜运行 UTC 0点相当于北京时间早上8点
   workflow_dispatch:
+
 jobs:
   run-subs-check:
     runs-on: ubuntu-latest
@@ -13,15 +14,21 @@ jobs:
 
       - name: Run subs-check
         run: |
-          docker run --rm \
+          timeout 300s docker run --rm \
             -v ${{ github.workspace }}/config.yaml:/app/config/config.yaml \
             -v ${{ github.workspace }}/output:/app/output \
             ghcr.io/beck-8/subs-check:latest
 
       - name: Commit output
+        if: success() || failure()
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add output/*
-          git commit -m "Update subscription output" || echo "No changes to commit"
-          git push
+          if [ -d "output" ] && find output -mindepth 1 -print -quit 2>/dev/null; then
+            echo "Output directory is not empty. Committing changes."
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add output/*
+            git commit -m "Update subscription output" || echo "No changes to commit"
+            git push
+          else
+            echo "Output directory is empty or does not exist. Skipping commit."
+          fi
