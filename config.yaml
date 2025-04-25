@@ -23,7 +23,7 @@ enable-web-ui: false
 api-key: ""
 callback-script: ""
 apprise-api-server: ""
-recipient-url:
+recipient-url: [] # Changed to empty list to indicate no recipients
 notify-title: "🔔 节点状态更新"
 sub-store-port: ""
 sub-store-path: ""
