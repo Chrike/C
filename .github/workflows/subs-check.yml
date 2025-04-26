@@ -2,12 +2,13 @@ name: Run subs-check
 
 on:
   schedule:
-    - cron: '15 17 * * *'
-  workflow_dispatch:
+    - cron: '15 */8 * * *'
+  workflow_dispatch: 
 
 jobs:
   run-subs-check:
     runs-on: ubuntu-latest
+    timeout-minutes: 80
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
