@@ -2,7 +2,7 @@ name: Run subs-check
 
 on:
   schedule:
-    - cron: '15 17 * * *' # 每天 UTC 时间 17:15 运行
+    - cron: '15 17 * * *'
   workflow_dispatch:
 
 jobs:
@@ -12,18 +12,38 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Replace placeholders in config.yaml
+      - name: Replace Gist placeholders in config.yaml
         run: |
           sed -i 's|__GIST_ID_PLACEHOLDER__|${{ secrets.GIST_ID }}|g' config.yaml
           sed -i 's|__GITHUB_TOKEN_PLACEHOLDER__|${{ secrets.GIST_PAT }}|g' config.yaml
         env:
           GIST_ID: ${{ secrets.GIST_ID }}
           GIST_PAT: ${{ secrets.GIST_PAT }}
+
+      - name: Add subscription URLs from Multiline Secret
+        env:
+          SUB_LINKS: ${{ secrets.SUB_URLS_MULTILINE }}
+        run: |
+          echo "Adding subscription URLs from SUB_URLS_MULTILINE secret..."
+          if [ -z "$SUB_LINKS" ]; then
+            echo "Secret is empty. No URLs added."
+          else
+            printf "%s\n" "$SUB_LINKS" | while IFS= read -r url || [ -n "$url" ]; do
+              trimmed_url=$(echo "$url" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+              if [ -n "$trimmed_url" ]; then
+                echo "  - \"$trimmed_url\"" >> config.yaml
+                echo "Added URL ending with: ...${trimmed_url: -15}"
+              fi
+            done
+          fi
+          echo "Finished adding subscription URLs."
+          echo "Current config.yaml tail (for verification):"
+          tail config.yaml
+
       - name: Run subs-check and Upload to Gist
         run: |
           echo "Running subs-check..."
           docker run --rm \
             -v ${{ github.workspace }}/config.yaml:/app/config/config.yaml \
-            -v ${{ github.workspace }}/output:/app/output \
             ghcr.io/beck-8/subs-check:latest
           echo "subs-check finished."
