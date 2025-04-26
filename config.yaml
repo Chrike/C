@@ -1,7 +1,7 @@
 print-progress: true
 concurrent: 20
 check-interval: 30000
-timeout: 2000
+timeout: 2100
 speed-test-url: https://github.com/AaronFeng753/Waifu2x-Extension-GUI/releases/download/v2.21.12/Waifu2x-Extension-GUI-v2.21.12-Portable.7z
 min-speed: 10
 download-timeout: 5
