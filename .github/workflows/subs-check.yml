@@ -8,7 +8,7 @@ on:
 jobs:
   run-subs-check:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 130
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
