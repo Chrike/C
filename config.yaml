@@ -44,4 +44,3 @@ worker-token: 1234567890
 sub-urls-retry: 3
 github-proxy: ""
 sub-urls:
-  - "https://gist.githubusercontent.com/GeBron/a41c2616cff5ea0c4a96e0567d98dbf6/raw/clash.yaml"
