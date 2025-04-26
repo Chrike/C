@@ -31,7 +31,7 @@ mihomo-overwrite-url: "http://127.0.0.1:8199/sub/ACL4SSR_Online_Full.yaml"
 mihomo-api-url: ""
 mihomo-api-secret: ""
 # --- 修改以下部分 ---
-save-method: github-gist # 修改保存方式为 Gist
+save-method: gist # 修改保存方式为 Gist
 webdav-url: "https://example.com/dav/"
 webdav-username: "admin"
 webdav-password: "admin"
