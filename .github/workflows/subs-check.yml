@@ -11,20 +11,19 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
       - name: Replace placeholders in config.yaml
         run: |
           sed -i 's|__GIST_ID_PLACEHOLDER__|${{ secrets.GIST_ID }}|g' config.yaml
+          sed -i 's|__GITHUB_TOKEN_PLACEHOLDER__|${{ secrets.GIST_PAT }}|g' config.yaml
         env:
           GIST_ID: ${{ secrets.GIST_ID }}
-
+          GIST_PAT: ${{ secrets.GIST_PAT }}
       - name: Run subs-check and Upload to Gist
-        env:
-          GITHUB_TOKEN: ${{ secrets.GIST_PAT }}
         run: |
           echo "Running subs-check..."
           docker run --rm \
             -v ${{ github.workspace }}/config.yaml:/app/config/config.yaml \
             -v ${{ github.workspace }}/output:/app/output \
-            -e GITHUB_TOKEN \
             ghcr.io/beck-8/subs-check:latest
           echo "subs-check finished."
