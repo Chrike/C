@@ -2,7 +2,7 @@ name: Run subs-check
 
 on:
   schedule:
-    - cron: '15 17 * * *' # 每天 UTC 时间午夜运行 UTC 0点相当于北京时间早上8点
+    - cron: '15 17 * * *' # 每天 UTC 时间 17:15 运行
   workflow_dispatch:
 
 jobs:
@@ -10,25 +10,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Run subs-check
+        uses: actions/checkout@v3
+      - name: Replace placeholders in config.yaml
         run: |
-          timeout 300s docker run --rm \
+          sed -i 's|__GIST_ID_PLACEHOLDER__|${{ secrets.GIST_ID }}|g' config.yaml
+        env:
+          GIST_ID: ${{ secrets.GIST_ID }}
+
+      - name: Run subs-check and Upload to Gist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIST_PAT }}
+        run: |
+          echo "Running subs-check..."
+          docker run --rm \
             -v ${{ github.workspace }}/config.yaml:/app/config/config.yaml \
             -v ${{ github.workspace }}/output:/app/output \
+            -e GITHUB_TOKEN \
             ghcr.io/beck-8/subs-check:latest
-
-      - name: Commit output
-        if: success() || failure()
-        run: |
-          if [ -d "output" ] && find output -mindepth 1 -print -quit 2>/dev/null; then
-            echo "Output directory is not empty. Committing changes."
-            git config --local user.email "action@github.com"
-            git config --local user.name "GitHub Action"
-            git add output/*
-            git commit -m "Update subscription output" || echo "No changes to commit"
-            git push
-          else
-            echo "Output directory is empty or does not exist. Skipping commit."
-          fi
+          echo "subs-check finished."
