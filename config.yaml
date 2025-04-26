@@ -18,25 +18,27 @@ platforms:
   - iprisk
 keep-success-proxies: false
 success-limit: 0
-output-dir: ""
+# output-dir: "" # 不再需要本地输出目录用于提交
 enable-web-ui: false
 api-key: ""
 callback-script: ""
 apprise-api-server: ""
-recipient-url: [] # Changed to empty list to indicate no recipients
+recipient-url: []
 notify-title: "🔔 节点状态更新"
 sub-store-port: ""
 sub-store-path: ""
 mihomo-overwrite-url: "http://127.0.0.1:8199/sub/ACL4SSR_Online_Full.yaml"
 mihomo-api-url: ""
 mihomo-api-secret: ""
-save-method: local
+# --- 修改以下部分 ---
+save-method: github-gist # 修改保存方式为 Gist
 webdav-url: "https://example.com/dav/"
 webdav-username: "admin"
 webdav-password: "admin"
-github-gist-id: ""
-github-token: ""
+github-gist-id: "__GIST_ID_PLACEHOLDER__"
+github-token: "" # <--- 将 Token 留空或删除此行，我们将通过环境变量传递
 github-api-mirror: ""
+# --- worker 配置保持不变或按需修改 ---
 worker-url: https://example.worker.dev
 worker-token: 1234567890
 sub-urls-retry: 3
