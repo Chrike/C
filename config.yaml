@@ -36,7 +36,7 @@ webdav-url: "https://example.com/dav/"
 webdav-username: "admin"
 webdav-password: "admin"
 github-gist-id: "__GIST_ID_PLACEHOLDER__"
-github-token: "" # <--- 将 Token 留空或删除此行，我们将通过环境变量传递
+github-token: "__GITHUB_TOKEN_PLACEHOLDER__"
 github-api-mirror: ""
 # --- worker 配置保持不变或按需修改 ---
 worker-url: https://example.worker.dev
