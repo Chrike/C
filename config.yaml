@@ -6,7 +6,7 @@ speed-test-url: https://github.com/AaronFeng753/Waifu2x-Extension-GUI/releases/d
 min-speed: 20
 download-timeout: 5
 listen-port: ""
-rename-node: true
+rename-node: false
 node-prefix: ""
 media-check: false
 platforms:
