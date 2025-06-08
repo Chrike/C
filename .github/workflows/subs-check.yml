@@ -1,50 +1,50 @@
-name: Run subs-check
+# name: Run subs-check
 
-on:
-  schedule:
-    - cron: '0 */12 * * *'
-  workflow_dispatch: 
+# on:
+#   schedule:
+#     - cron: '0 */12 * * *'
+#   workflow_dispatch: 
 
-jobs:
-  run-subs-check:
-    runs-on: ubuntu-latest
-    timeout-minutes: 130
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+# jobs:
+#   run-subs-check:
+#     runs-on: ubuntu-latest
+#     timeout-minutes: 130
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v3
 
-      - name: Replace Gist placeholders in config.yaml
-        run: |
-          sed -i 's|__GIST_ID_PLACEHOLDER__|${{ secrets.GIST_ID }}|g' config.yaml
-          sed -i 's|__GITHUB_TOKEN_PLACEHOLDER__|${{ secrets.GIST_PAT }}|g' config.yaml
-        env:
-          GIST_ID: ${{ secrets.GIST_ID }}
-          GIST_PAT: ${{ secrets.GIST_PAT }}
+#       - name: Replace Gist placeholders in config.yaml
+#         run: |
+#           sed -i 's|__GIST_ID_PLACEHOLDER__|${{ secrets.GIST_ID }}|g' config.yaml
+#           sed -i 's|__GITHUB_TOKEN_PLACEHOLDER__|${{ secrets.GIST_PAT }}|g' config.yaml
+#         env:
+#           GIST_ID: ${{ secrets.GIST_ID }}
+#           GIST_PAT: ${{ secrets.GIST_PAT }}
 
-      - name: Add subscription URLs from Multiline Secret
-        env:
-          SUB_LINKS: ${{ secrets.SUB_URLS_MULTILINE }}
-        run: |
-          echo "Adding subscription URLs from SUB_URLS_MULTILINE secret..."
-          if [ -z "$SUB_LINKS" ]; then
-            echo "Secret is empty. No URLs added."
-          else
-            printf "%s\n" "$SUB_LINKS" | while IFS= read -r url || [ -n "$url" ]; do
-              trimmed_url=$(echo "$url" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
-              if [ -n "$trimmed_url" ]; then
-                echo "  - \"$trimmed_url\"" >> config.yaml
-                echo "Added URL ending with: ...${trimmed_url: -15}"
-              fi
-            done
-          fi
-          echo "Finished adding subscription URLs."
-          echo "Current config.yaml tail (for verification):"
-          tail config.yaml
+#       - name: Add subscription URLs from Multiline Secret
+#         env:
+#           SUB_LINKS: ${{ secrets.SUB_URLS_MULTILINE }}
+#         run: |
+#           echo "Adding subscription URLs from SUB_URLS_MULTILINE secret..."
+#           if [ -z "$SUB_LINKS" ]; then
+#             echo "Secret is empty. No URLs added."
+#           else
+#             printf "%s\n" "$SUB_LINKS" | while IFS= read -r url || [ -n "$url" ]; do
+#               trimmed_url=$(echo "$url" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+#               if [ -n "$trimmed_url" ]; then
+#                 echo "  - \"$trimmed_url\"" >> config.yaml
+#                 echo "Added URL ending with: ...${trimmed_url: -15}"
+#               fi
+#             done
+#           fi
+#           echo "Finished adding subscription URLs."
+#           echo "Current config.yaml tail (for verification):"
+#           tail config.yaml
 
-      - name: Run subs-check and Upload to Gist
-        run: |
-          echo "Running subs-check..."
-          docker run --rm \
-            -v ${{ github.workspace }}/config.yaml:/app/config/config.yaml \
-            ghcr.io/beck-8/subs-check:latest
-          echo "subs-check finished."
+#       - name: Run subs-check and Upload to Gist
+#         run: |
+#           echo "Running subs-check..."
+#           docker run --rm \
+#             -v ${{ github.workspace }}/config.yaml:/app/config/config.yaml \
+#             ghcr.io/beck-8/subs-check:latest
+#           echo "subs-check finished."
